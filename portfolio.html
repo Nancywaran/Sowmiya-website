@@ -1,0 +1,735 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Sowmiya — Developer Portfolio</title>
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Mono:wght@300;400;500&display=swap" rel="stylesheet"/>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #0a0c0f;
+      --surface: #111418;
+      --border: #1e2329;
+      --accent: #c8f04a;
+      --accent-dim: rgba(200,240,74,0.12);
+      --text: #e8eaf0;
+      --muted: #5a6072;
+      --white: #ffffff;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'DM Mono', monospace;
+      font-size: 14px;
+      line-height: 1.7;
+      overflow-x: hidden;
+    }
+
+    /* ── GRID LINES BACKGROUND ── */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(200,240,74,0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(200,240,74,0.03) 1px, transparent 1px);
+      background-size: 60px 60px;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 20px 60px;
+      background: rgba(10,12,15,0.85);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .nav-logo {
+      font-family: 'Syne', sans-serif;
+      font-weight: 800;
+      font-size: 18px;
+      color: var(--accent);
+      letter-spacing: -0.5px;
+    }
+
+    .nav-logo span { color: var(--white); }
+
+    .nav-links {
+      display: flex;
+      gap: 36px;
+      list-style: none;
+    }
+
+    .nav-links a {
+      color: var(--muted);
+      text-decoration: none;
+      font-size: 12px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      transition: color 0.2s;
+    }
+
+    .nav-links a:hover { color: var(--accent); }
+
+    /* ── HERO ── */
+    #hero {
+      position: relative;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      padding: 140px 60px 80px;
+      z-index: 1;
+    }
+
+    .hero-inner { max-width: 900px; }
+
+    .hero-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 11px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--accent);
+      border: 1px solid rgba(200,240,74,0.3);
+      padding: 6px 14px;
+      border-radius: 2px;
+      margin-bottom: 32px;
+      animation: fadeUp 0.6s ease both;
+    }
+
+    .hero-tag::before {
+      content: '';
+      width: 6px; height: 6px;
+      border-radius: 50%;
+      background: var(--accent);
+      animation: pulse 1.5s infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.3; }
+    }
+
+    h1 {
+      font-family: 'Syne', sans-serif;
+      font-size: clamp(52px, 8vw, 96px);
+      font-weight: 800;
+      line-height: 0.95;
+      letter-spacing: -3px;
+      color: var(--white);
+      margin-bottom: 28px;
+      animation: fadeUp 0.6s 0.1s ease both;
+    }
+
+    h1 .line-accent { color: var(--accent); }
+
+    .hero-desc {
+      max-width: 520px;
+      color: var(--muted);
+      font-size: 15px;
+      line-height: 1.8;
+      margin-bottom: 44px;
+      animation: fadeUp 0.6s 0.2s ease both;
+    }
+
+    .hero-cta {
+      display: flex;
+      gap: 16px;
+      flex-wrap: wrap;
+      animation: fadeUp 0.6s 0.3s ease both;
+    }
+
+    .btn-primary {
+      background: var(--accent);
+      color: #0a0c0f;
+      font-family: 'DM Mono', monospace;
+      font-size: 12px;
+      font-weight: 500;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      padding: 14px 28px;
+      border: none;
+      cursor: pointer;
+      text-decoration: none;
+      display: inline-block;
+      transition: all 0.2s;
+    }
+
+    .btn-primary:hover { background: #d9ff55; transform: translateY(-2px); }
+
+    .btn-outline {
+      background: transparent;
+      color: var(--text);
+      font-family: 'DM Mono', monospace;
+      font-size: 12px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      padding: 14px 28px;
+      border: 1px solid var(--border);
+      cursor: pointer;
+      text-decoration: none;
+      display: inline-block;
+      transition: all 0.2s;
+    }
+
+    .btn-outline:hover { border-color: var(--accent); color: var(--accent); }
+
+    .hero-stats {
+      position: absolute;
+      right: 60px;
+      bottom: 80px;
+      display: flex;
+      gap: 40px;
+      animation: fadeUp 0.6s 0.4s ease both;
+    }
+
+    .stat { text-align: right; }
+    .stat-num {
+      font-family: 'Syne', sans-serif;
+      font-size: 36px;
+      font-weight: 700;
+      color: var(--white);
+      display: block;
+    }
+    .stat-label { font-size: 11px; color: var(--muted); letter-spacing: 0.08em; }
+
+    /* ── SECTION BASE ── */
+    section { position: relative; z-index: 1; }
+
+    .section-header {
+      display: flex;
+      align-items: baseline;
+      gap: 16px;
+      margin-bottom: 48px;
+    }
+
+    .section-num {
+      font-size: 11px;
+      color: var(--accent);
+      letter-spacing: 0.1em;
+    }
+
+    h2 {
+      font-family: 'Syne', sans-serif;
+      font-size: clamp(28px, 4vw, 42px);
+      font-weight: 700;
+      color: var(--white);
+      letter-spacing: -1px;
+    }
+
+    .section-line {
+      flex: 1;
+      height: 1px;
+      background: var(--border);
+      margin-bottom: 6px;
+    }
+
+    /* ── ABOUT ── */
+    #about {
+      padding: 100px 60px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 80px;
+      align-items: start;
+    }
+
+    .about-text p {
+      color: var(--muted);
+      margin-bottom: 16px;
+      line-height: 1.9;
+    }
+
+    .about-text p strong { color: var(--text); }
+
+    .skills-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+
+    .skill-item {
+      border: 1px solid var(--border);
+      padding: 16px 18px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      transition: border-color 0.2s, background 0.2s;
+    }
+
+    .skill-item:hover {
+      border-color: var(--accent);
+      background: var(--accent-dim);
+    }
+
+    .skill-dot {
+      width: 6px; height: 6px;
+      border-radius: 50%;
+      background: var(--accent);
+      flex-shrink: 0;
+    }
+
+    .skill-name { font-size: 13px; color: var(--text); }
+
+    /* ── PROJECTS ── */
+    #projects { padding: 100px 60px; }
+
+    .projects-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1px;
+      background: var(--border);
+    }
+
+    .project-card {
+      background: var(--surface);
+      padding: 36px;
+      transition: background 0.25s;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .project-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%; height: 2px;
+      background: var(--accent);
+      transform: scaleX(0);
+      transform-origin: left;
+      transition: transform 0.3s ease;
+    }
+
+    .project-card:hover::before { transform: scaleX(1); }
+    .project-card:hover { background: #13171c; }
+
+    .project-tag {
+      font-size: 10px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 16px;
+      display: block;
+    }
+
+    .project-title {
+      font-family: 'Syne', sans-serif;
+      font-size: 20px;
+      font-weight: 700;
+      color: var(--white);
+      margin-bottom: 12px;
+    }
+
+    .project-desc {
+      font-size: 13px;
+      color: var(--muted);
+      line-height: 1.8;
+      margin-bottom: 24px;
+    }
+
+    .project-stack {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .stack-tag {
+      font-size: 10px;
+      letter-spacing: 0.06em;
+      color: var(--muted);
+      border: 1px solid var(--border);
+      padding: 3px 10px;
+    }
+
+    .project-link {
+      position: absolute;
+      top: 36px; right: 36px;
+      color: var(--muted);
+      font-size: 18px;
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+
+    .project-link:hover { color: var(--accent); }
+
+    /* ── EXPERIENCE ── */
+    #experience { padding: 100px 60px; }
+
+    .timeline { border-left: 1px solid var(--border); padding-left: 36px; }
+
+    .timeline-item {
+      position: relative;
+      margin-bottom: 48px;
+    }
+
+    .timeline-item::before {
+      content: '';
+      position: absolute;
+      left: -41px; top: 6px;
+      width: 10px; height: 10px;
+      border: 1px solid var(--accent);
+      background: var(--bg);
+    }
+
+    .timeline-meta {
+      display: flex;
+      gap: 16px;
+      align-items: center;
+      margin-bottom: 8px;
+    }
+
+    .timeline-period {
+      font-size: 11px;
+      color: var(--accent);
+      letter-spacing: 0.08em;
+    }
+
+    .timeline-company {
+      font-size: 11px;
+      color: var(--muted);
+      letter-spacing: 0.06em;
+    }
+
+    .timeline-role {
+      font-family: 'Syne', sans-serif;
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--white);
+      margin-bottom: 10px;
+    }
+
+    .timeline-desc {
+      font-size: 13px;
+      color: var(--muted);
+      line-height: 1.8;
+      max-width: 600px;
+    }
+
+    /* ── CONTACT ── */
+    #contact {
+      padding: 100px 60px;
+      border-top: 1px solid var(--border);
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 80px;
+      align-items: center;
+    }
+
+    .contact-left h2 { margin-bottom: 16px; }
+
+    .contact-left p {
+      color: var(--muted);
+      max-width: 400px;
+      margin-bottom: 32px;
+      line-height: 1.9;
+    }
+
+    .contact-links { display: flex; flex-direction: column; gap: 16px; }
+
+    .contact-link {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      color: var(--muted);
+      text-decoration: none;
+      font-size: 13px;
+      transition: color 0.2s;
+      padding: 14px 18px;
+      border: 1px solid var(--border);
+    }
+
+    .contact-link:hover { border-color: var(--accent); color: var(--accent); }
+
+    .contact-link-icon { font-size: 16px; }
+
+    /* ── FOOTER ── */
+    footer {
+      padding: 24px 60px;
+      border-top: 1px solid var(--border);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: relative;
+      z-index: 1;
+    }
+
+    footer p { font-size: 11px; color: var(--muted); }
+
+    /* ── ANIMATIONS ── */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(24px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .reveal {
+      opacity: 0;
+      transform: translateY(32px);
+      transition: opacity 0.6s ease, transform 0.6s ease;
+    }
+
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 900px) {
+      nav { padding: 16px 24px; }
+      nav .nav-links { display: none; }
+      #hero { padding: 120px 24px 80px; }
+      .hero-stats { position: static; margin-top: 48px; justify-content: flex-start; }
+      #about { grid-template-columns: 1fr; gap: 48px; padding: 60px 24px; }
+      .projects-grid { grid-template-columns: 1fr; }
+      #projects, #experience, #contact { padding: 60px 24px; }
+      #contact { grid-template-columns: 1fr; }
+      footer { padding: 20px 24px; flex-direction: column; gap: 8px; text-align: center; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo">sowmiya<span>.</span></div>
+  <ul class="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#projects">Projects</a></li>
+    <li><a href="#experience">Experience</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-inner">
+    <div class="hero-tag">Open to opportunities</div>
+    <h1>
+      Aspiring<br>
+      <span class="line-accent">Developer</span><br>
+      <br>& Learner.
+    </h1>
+    <p class="hero-desc">
+      A passionate fresher with hands-on knowledge in HTML, CSS, JavaScript &amp; Python. Looking to grow, contribute, and build real-world projects.
+      
+    </p>
+    <div class="hero-cta">
+      <a href="#projects" class="btn-primary">View Projects</a>
+      <a href="#contact" class="btn-outline">Get in Touch</a>
+    </div>
+  </div>
+  <div class="hero-stats">
+    <div class="stat">
+      <span class="stat-num">🌱</span>
+      <span class="stat-label">Fresher</span>
+    </div>
+    <div class="stat">
+      <span class="stat-num">3</span>
+      <span class="stat-label">Skills</span>
+    </div>
+    <div class="stat">
+      <span class="stat-num">∞</span>
+      <span class="stat-label">Eager to Learn</span>
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="about-text reveal">
+    <div class="section-header">
+      <span class="section-num">01</span>
+      <h2>About Me</h2>
+      <div class="section-line"></div>
+    </div>
+    <p>Hi, I'm <strong>Sowmiya</strong> — a developer with a passion for building clean, functional web experiences. I enjoy turning ideas into real, working products.</p>
+    <p>I work with <strong>HTML, CSS, JavaScript</strong> and <strong>Python</strong> to create websites and applications that are both visually appealing and easy to use.</p>
+    <p>I'm always learning and growing — excited to take on new challenges and collaborate on meaningful projects.</p>
+  </div>
+  <div class="reveal">
+    <div class="section-header">
+      <span class="section-num">—</span>
+      <h2>Tech Stack</h2>
+      <div class="section-line"></div>
+    </div>
+    <div class="skills-grid">
+      <div class="skill-item"><div class="skill-dot"></div><span class="skill-name">HTML</span></div>
+      <div class="skill-item"><div class="skill-dot"></div><span class="skill-name">CSS</span></div>
+      <div class="skill-item"><div class="skill-dot"></div><span class="skill-name">JavaScript</span></div>
+      <div class="skill-item"><div class="skill-dot"></div><span class="skill-name">Python</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- PROJECTS -->
+<section id="projects">
+  <div class="section-header reveal">
+    <span class="section-num">02</span>
+    <h2>Selected Projects</h2>
+    <div class="section-line"></div>
+  </div>
+  <div class="projects-grid">
+    <div class="project-card reveal">
+      <a href="#" class="project-link">↗</a>
+      <span class="project-tag">SaaS · Full-Stack</span>
+      <div class="project-title">Analytica Dashboard</div>
+      <p class="project-desc">Real-time analytics platform processing 2M+ events/day with sub-100ms query latency and customizable visualization layers.</p>
+      <div class="project-stack">
+        <span class="stack-tag">Next.js</span>
+        <span class="stack-tag">TimescaleDB</span>
+        <span class="stack-tag">Redis</span>
+        <span class="stack-tag">Kafka</span>
+      </div>
+    </div>
+    <div class="project-card reveal">
+      <a href="#" class="project-link">↗</a>
+      <span class="project-tag">API · Backend</span>
+      <div class="project-title">PayFlow Gateway</div>
+      <p class="project-desc">Microservices-based payment gateway with multi-provider routing, fraud scoring, and automated reconciliation workflows.</p>
+      <div class="project-stack">
+        <span class="stack-tag">Node.js</span>
+        <span class="stack-tag">PostgreSQL</span>
+        <span class="stack-tag">Docker</span>
+        <span class="stack-tag">Stripe</span>
+      </div>
+    </div>
+    <div class="project-card reveal">
+      <a href="#" class="project-link">↗</a>
+      <span class="project-tag">Mobile · Cross-platform</span>
+      <div class="project-title">Taskr App</div>
+      <p class="project-desc">Cross-platform productivity app with offline-first sync, team collaboration, and AI-powered task prioritization.</p>
+      <div class="project-stack">
+        <span class="stack-tag">React Native</span>
+        <span class="stack-tag">Supabase</span>
+        <span class="stack-tag">OpenAI</span>
+      </div>
+    </div>
+    <div class="project-card reveal">
+      <a href="#" class="project-link">↗</a>
+      <span class="project-tag">DevTools · CLI</span>
+      <div class="project-title">DeployKit</div>
+      <p class="project-desc">CLI tool that automates CI/CD pipeline setup for monorepos, with built-in environment management and rollback support.</p>
+      <div class="project-stack">
+        <span class="stack-tag">Python</span>
+        <span class="stack-tag">GitHub Actions</span>
+        <span class="stack-tag">Terraform</span>
+      </div>
+    </div>
+    <div class="project-card reveal">
+      <a href="#" class="project-link">↗</a>
+      <span class="project-tag">E-Commerce · Frontend</span>
+      <div class="project-title">Luxe Storefront</div>
+      <p class="project-desc">Headless commerce storefront with 98 Lighthouse score, edge caching, and a custom CMS for non-technical editors.</p>
+      <div class="project-stack">
+        <span class="stack-tag">Next.js</span>
+        <span class="stack-tag">Sanity</span>
+        <span class="stack-tag">Vercel</span>
+      </div>
+    </div>
+    <div class="project-card reveal">
+      <a href="#" class="project-link">↗</a>
+      <span class="project-tag">AI · Automation</span>
+      <div class="project-title">DocuMind</div>
+      <p class="project-desc">RAG-based document intelligence platform that extracts, indexes, and answers questions across enterprise document libraries.</p>
+      <div class="project-stack">
+        <span class="stack-tag">Python</span>
+        <span class="stack-tag">LangChain</span>
+        <span class="stack-tag">Pinecone</span>
+        <span class="stack-tag">FastAPI</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- EXPERIENCE -->
+<section id="experience">
+  <div class="section-header reveal">
+    <span class="section-num">03</span>
+    <h2>Experience</h2>
+    <div class="section-line"></div>
+  </div>
+  <div class="timeline">
+    <div class="timeline-item reveal">
+      <div class="timeline-meta">
+        <span class="timeline-period">2026 — Present</span>
+        <span class="timeline-company">· Self-Learning</span>
+      </div>
+      <div class="timeline-role">Fresher Developer</div>
+      <p class="timeline-desc">Currently building foundational skills in HTML, CSS, JavaScript and Python. Working on personal projects to grow my portfolio and gain real-world experience.</p>
+    </div>
+    <div class="timeline-item reveal">
+      <div class="timeline-meta">
+        <span class="timeline-period">2025 — 2026</span>
+        <span class="timeline-company">· Academic</span>
+      </div>
+      <div class="timeline-role">Student Projects</div>
+      <p class="timeline-desc">Completed coursework and hands-on assignments in web development and programming, applying concepts through practical mini-projects.</p>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="contact-left reveal">
+    <div class="section-header">
+      <span class="section-num">04</span>
+      <h2>Let's Work<br>Together.</h2>
+      <div class="section-line"></div>
+    </div>
+    <p>Open to full-time roles, contract work, and interesting collaborations. If you have a project or opportunity in mind, let's talk.</p>
+    <a href="mailto:skcd1438@gmail.com" class="btn-primary">Send an Email</a>
+  </div>
+  <div class="contact-links reveal">
+    <a href="mailto:skcd1438@gmail.com" class="contact-link">
+      <span class="contact-link-icon">✉</span>
+      skcd1438@gmail.com
+    </a>
+    <a href="https://github.com" target="_blank" class="contact-link">
+      <span class="contact-link-icon">⌥</span>
+      github.com/yourhandle
+    </a>
+    <a href="https://linkedin.com" target="_blank" class="contact-link">
+      <span class="contact-link-icon">◈</span>
+      linkedin.com/in/sowmiya
+    </a>
+    <a href="#" class="contact-link">
+      <span class="contact-link-icon">↓</span>
+      Download Resume
+    </a>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <p>© 2026 Sowmiya — All rights reserved.</p>
+  <p>Designed & Built with precision.</p>
+</footer>
+
+<script>
+  // Scroll reveal
+  const reveals = document.querySelectorAll('.reveal');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry, i) => {
+      if (entry.isIntersecting) {
+        setTimeout(() => entry.target.classList.add('visible'), i * 80);
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.1 });
+  reveals.forEach(el => observer.observe(el));
+</script>
+
+</body>
+</html>
